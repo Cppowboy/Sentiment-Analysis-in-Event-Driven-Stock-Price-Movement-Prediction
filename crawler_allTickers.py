@@ -34,8 +34,9 @@ def getTickers(percent):
 
 
 def main():
-    arg = sys.argv[1]
-    s = getTickers(int(arg)) # keep the top N% market-cap companies
+    # arg = sys.argv[1]
+    percent=20
+    s = getTickers(percent) # keep the top N% market-cap companies
 
 
 if __name__ == "__main__":

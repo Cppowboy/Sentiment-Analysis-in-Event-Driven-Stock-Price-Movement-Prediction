@@ -1,5 +1,15 @@
 #!/usr/bin/python
 import re
+# import socks and socket
+import socks
+import socket
+# Can be socks4/5
+socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 1080)
+socket.socket = socks.socksocket
+# Magic!
+def getaddrinfo(*args):
+    return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', (args[0], args[1]))]
+socket.getaddrinfo = getaddrinfo
 import urllib2
 import csv
 import os
@@ -34,7 +44,7 @@ class news_Reuters:
         # https://uk.reuters.com/info/disclaimer
         suffix = {'AMEX': '.A', 'NASDAQ': '.O', 'NYSE': '.N'}
         # e.g. http://www.reuters.com/finance/stocks/company-news/BIDU.O?date=09262017
-        url = "http://www.reuters.com/finance/stocks/companyNews/" + ticker + suffix[exchange]
+        url = "http://www.reuters.com/finance/stocks/company-news/" + ticker + suffix[exchange]
         has_Content = 0
         repeat_times = 4
         # check the website to see if that ticker has many news
@@ -47,7 +57,8 @@ class news_Reuters:
                 soup = BeautifulSoup(data, "lxml")
                 has_Content = len(soup.find_all("div", {'class': ['topStory', 'feature']}))
                 break
-            except:
+            except Exception as e:
+                print e
                 continue
         
         # spider task for the past
