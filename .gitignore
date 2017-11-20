@@ -107,3 +107,7 @@ input/*
 output/*
 log/*
 .idea*
+.gitignore
+.idea/
+input/news_failed_tickers.csv
+input/
