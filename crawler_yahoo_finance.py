@@ -48,6 +48,7 @@ def get_stock_Prices():
 
 def repeatDownload(ticker):
     repeat_times = 3  # repeat download for N times
+    priceStr = []
     for _ in range(repeat_times):
         try:
             time.sleep(random.uniform(2, 3))
