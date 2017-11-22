@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import util
+# import util
 import json
 import datetime
 from math import log
@@ -24,8 +24,8 @@ def calc_mid_long_return(ticker, date, delta, priceSet):
     nextDate = (baseDate + datetime.timedelta(days=delta)).strftime("%Y-%m-%d")
 
     try:
-        return_self = log(priceSet[ticker]['adjClose'][nextDate]) - log(priceSet[ticker]['adjClose'][prevDate])
-        return_sp500 = log(priceSet['^GSPC']['adjClose'][nextDate]) - log(priceSet['^GSPC']['adjClose'][prevDate])
+        return_self = log(priceSet[ticker]['Adj Close'][nextDate]) - log(priceSet[ticker]['Adj Close'][prevDate])
+        return_sp500 = log(priceSet['^GSPC']['Adj Close'][nextDate]) - log(priceSet['^GSPC']['Adj Close'][prevDate])
         return True, round(return_self - return_sp500, 4)  # relative return
     except:
         return False, 0
@@ -36,7 +36,7 @@ def main():
     with open(raw_price_file) as file:
         print("Loading price info ...")
         priceSet = json.load(file)
-        dateSet = priceSet['^GSPC']['adjClose'].keys()
+        dateSet = priceSet['^GSPC']['Adj Close'].keys()
 
     returns = {'short': {}, 'mid': {}, 'long': {}}  # 1-depth dictionary
     for ticker in priceSet:
