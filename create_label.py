@@ -3,6 +3,7 @@
 import json
 import datetime
 from math import log
+import cPickle as pickle
 
 
 # input file name: ./input/stockPrices_raw.json
@@ -32,12 +33,13 @@ def calc_mid_long_return(ticker, date, delta, priceSet):
 
 
 def main():
-    raw_price_file = 'input/stockPrices_raw.json'
-    with open(raw_price_file) as file:
-        print("Loading price info ...")
-        priceSet = json.load(file)
-        dateSet = priceSet['^GSPC']['Adj Close'].keys()
-
+    # raw_price_file = 'input/stockPrices_raw.json'
+    # with open(raw_price_file) as file:
+    #     print("Loading price info ...")
+    #     priceSet = json.load(file)
+    #     dateSet = priceSet['^GSPC']['Adj Close'].keys()
+    priceSet = pickle.load(open('./input/stockPrices_raw.pkl', 'r'))
+    dateSet = priceSet['^GSPC'].index
     returns = {'short': {}, 'mid': {}, 'long': {}}  # 1-depth dictionary
     for ticker in priceSet:
         print(ticker)
